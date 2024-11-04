@@ -7,8 +7,6 @@ Ce projet Python utilise [l'API OpenWeatherMap](https://openweathermap.org/api) 
 - [Technologies utilisées](#technologies-utilisées)
 - [Installation](#installation)
 - [Utilisation](#utilisation)
-- [Contribuer](#contribuer)
-- [Licence](#licence)
 
 ## Technologies utilisées
 
