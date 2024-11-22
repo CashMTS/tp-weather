@@ -18,7 +18,7 @@ class OpenWeatherMap:
         self.processedData = {}
         logger.info(f"Initialization of the process to get weather data from {self.city}, {self.country}")
 
-    # Convertit les valeurs en Kelvin en degré Celsius 
+    # Convertit les valeurs en Kelvin en degré Celsius
     def kelvinToCelsius(self, kelvin):
         return kelvin - 273.15
 
@@ -35,9 +35,9 @@ class OpenWeatherMap:
 
     # Convertit le résultat brut obtenu de la requête en le format attendu
     def convert_data(self):
-        self.processedData["forecast_location"] = f"{self.data["city"]["name"]}({self.data["city"]["country"]})"
-        self.processedData["forecast_min_temp"] = 100
-        self.processedData["forecast_max_temp"] = -100
+        self.processedData["forecast_location"] = f"{self.data['city']['name']}({self.data['city']['country']})"
+        self.processedData["forecast_min_temp"] = None
+        self.processedData["forecast_max_temp"] = None
         self.processedData["forecast_details"] = []
         forecast_details = {}
 
@@ -56,11 +56,11 @@ class OpenWeatherMap:
             forecast_details[date]["temperature_sum"] += temperature
 
             # On met à jour la valeur de température minimale
-            if temperature < self.processedData["forecast_min_temp"]:
+            if self.processedData.get("forecast_min_temp") is None or temperature < self.processedData["forecast_min_temp"]:
                 self.processedData["forecast_min_temp"] = temperature
 
             # On met à jour la valeur de température maximale
-            if temperature > self.processedData["forecast_max_temp"]:
+            if self.processedData.get("forecast_max_temp") is None or temperature > self.processedData["forecast_max_temp"]:
                 self.processedData["forecast_max_temp"] = temperature
 
         # On traite les données organisées par jour
@@ -97,7 +97,7 @@ def validate_country_code(ctx, param, value):
     return value.upper()
 
 
-# Callback appelé pour valider l'input country code
+# Callback appelé pour valider l'input city name
 def validate_city(ctx, param, value):
     if not all(c.isalpha() or c.isspace() for c in value):
         raise click.BadParameter("The city name should only contain letters or spaces")
